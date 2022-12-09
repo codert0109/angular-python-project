@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <base href="/">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Kurt</title>
+  <!-- CSS -->
+  <!-- <link href="/css/bootstrap.min.css" rel="stylesheet" type="css" />-->
+  <!-- <link href="./assets/css/select2.min.css" rel="stylesheet" type="css" /> -->
+  <!-- <link href="./assets/css/style.css" rel="stylesheet" type="css" /> -->
+  <!-- FONT -->
+  <link href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+
+<body>
+  <app-root></app-root>
+</body>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/select2.min.js"></script>
+<script src="assets/js/crypto-js.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var imgid = 0;
+    $('.select2').select2({
+      closeOnSelect: true
+    });
+    $('.select2').on('select2:select', function (e) {
+      var data = e.params.data;
+      var imgreq = $.ajax({
+        url: "https://krycaptial.procedurerock.com:8080/userInterestImage",
+        type: "GET",
+        async: false,
+        data: {
+          topic: data.text,
+        },
+        dataType: "json"
+      });
+
+      imgreq.done(function (data) {
+        var count = 0;
+        console.log(data);
+        $(".image-checkbox li").each(function (index) {
+          if (imgid == index && count < data.length) {
+            $(this).find('img').attr('src', 'assets/img/' + data[count]);
+            imgid++;
+            count++;
+          }
+        });
+      });
+
+      imgreq.fail(function (jqXHR, textStatus) {
+        console.log(jqXHR);
+      });
+    });
+  });
+
+</script>
+
+</html>

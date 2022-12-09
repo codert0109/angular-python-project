@@ -1,0 +1,19 @@
+api list 
+
+for signup
+
+-check email  // "http://localhost:8000/email"
+-create user  //"http://localhost:8000/createuser"
+-signup otp  // "http://localhost:8000/signup/otp",
+-user interest field // "http://localhost:8000/userInterestImage",
+-singup submit  // "http://localhost:8000/signupSubmit",
+-upload avatar
+
+for login
+
+-email verify // "http://localhost:8000/login/email",
+-token // "http://localhost:8000/token"
+-otp login // "http://localhost:8000/login/otp"
+-get random images // "http://localhost:8000/randomimage"
+-verify image  // "http://localhost:8000/verifyimage"
+-split image // "http://localhost:8000/imgsplit"

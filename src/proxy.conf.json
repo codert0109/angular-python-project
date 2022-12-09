@@ -1,0 +1,6 @@
+{
+    "/api": {
+        "target": "https://krycaptial.procedurerock.com:8080",
+        "secure": false
+    }
+}

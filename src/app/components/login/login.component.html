@@ -1,0 +1,117 @@
+<div class="container d-flex align-items-center min-vh-100">
+    <div class="row g-0 justify-content-center">
+        <!-- TITLE -->
+        <div class="col-lg-4 offset-lg-1 mx-0 px-0">
+            <div id="title-container">
+                <img class="covid-image" src="assets/img/security_check.png" />
+                <h2>Login</h2>
+
+                <p>A clinical assessment multi-step form that will assist individuals on secure login process.</p>
+            </div>
+        </div>
+        <!-- FORMS -->
+        <div class="col-lg-7 mx-0 px-0">
+            <div class="progress">
+                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
+                    class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+                    style="width: 0%;"></div>
+            </div>
+            <div id="qbox-container">
+                <!-- <form class="needs-validation" id="form-wrapper" method="post" name="form-wrapper" novalidate=""> -->
+                    <div id="steps-container" [ngSwitch]="step">
+                        <div class="step" *ngSwitchCase="0">
+                            <h4>Please enter your email address and password</h4>
+
+                            <div class="mt-2">
+                                <label class="form-label">Email:</label>
+                                <input class="form-control" id="email" #email name="email" type="email" required (blur)="check_email(email.value)" [(ngModel)]="form1.email" />
+                            </div>
+                            <p class="emailerror" style="color:red" *ngIf="isEmailError">Please enter correct Email</p>
+                            <div class="mt-2">
+                                <label class="form-label">Password:</label>
+                                <input class="form-control" id="password" name="password" type="password" [(ngModel)]="form1.password" />
+                            </div>
+                            <p class="pwderror" style="color:red" *ngIf="isPwdError">{{pwdErrorMessage}}</p>
+                        </div>
+
+                        <div class="step" *ngSwitchCase="1">
+                            <h4>Please enter your OTP from Email, Phone, Google Authenticator</h4>
+
+                            <div class="mt-2">
+                                <label class="form-label">Email OTP:</label>
+                                <input class="form-control" id="email_otp" name="email_otp" type="number"
+                                    maxlength="6" [(ngModel)]="form2.eotp" />
+                            </div>
+                            <div class="mt-2">
+                                <label class="form-label">Phone OTP:</label>
+                                <input class="form-control" id="phone_otp" name="phone_otp" type="number"
+                                    maxlength="6" [(ngModel)]="form2.potp" />
+                            </div>
+                            <div class="mt-2">
+                                <label class="form-label">Google Autenticator OTP:</label>
+                                <input class="form-control" id="google_otp" name="google_otp" type="number"
+                                    maxlength="6" [(ngModel)]="form2.gotp" />
+                            </div>
+                        </div>
+
+                        <div class="step" *ngSwitchCase="2">
+                            <h4>Provide us with your image and audio information</h4>
+                            <div class="mt-1">
+                                <div class="form-check ps-0 q-box">
+                                    <ul class="image-checkbox">
+                                        <li *ngFor="let imageSrc of imageSrcs; let id = index">
+                                            <input type="checkbox" [id]="'myCheckbox' + (id + 1)" (input)="onSelectImage($event)"/>
+                                            <label [for]="'myCheckbox' + (id + 1)"><img (onclick)="split()" [src]="'assets/' + imageSrc" /></label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mt-5">
+                                <label class="form-label">Audio:</label>
+
+                                <div class="audio-controls">
+                                    <button class="btnstyle" id="record" (click)="startRecording">Record</button>
+                                    <button class="btnstyle" id="stop" (click)="stopRecording">Stop</button>
+                                    <audio class="btnstyle" id="audio" controls></audio>
+                                </div>
+
+                                <div id="msg">Recording...</div>
+
+                                <input type="file" id="audiofile" hidden>
+
+                                <div class="mt-3" hidden>
+                                    <a id="download">Download</a>
+                                </div>
+                            </div>
+                            <p class="submiterror" style="color:red"></p>
+                        </div>
+
+                        <div id="success">
+                            <div class="mt-5">
+                                <h4>Success! We'll get back to you ASAP!</h4>
+                                <p>
+                                    Meanwhile, clean your hands often, use soap and water, or an alcohol-based hand rub,
+                                    maintain a safe distance from anyone who is coughing or sneezing and always wear a
+                                    mask when physical
+                                    distancing is not possible.
+                                </p>
+                                <a class="back-link" href="">Go back from the beginning ➜</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="q-box__buttons">
+                        <button id="prev-btn" type="button" *ngIf="step != 0">Previous</button>
+                        <button id="next-btn" type="button" (click)="onClickNext()" *ngIf="step != 2">Next</button>
+                        <button id="submit-btn" type="submit" *ngIf="step == 2" (click)="onClickSubmit()">Submit</button>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PRELOADER -->
+<div id="preloader-wrapper">
+    <div id="preloader"></div>
+    <div class="preloader-section section-left"></div>
+    <div class="preloader-section section-right"></div>
+</div>

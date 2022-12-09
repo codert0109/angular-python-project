@@ -1,0 +1,273 @@
+<!-- CONTAINER -->
+<div class="container d-flex align-items-center min-vh-100">
+    <div class="row g-0 justify-content-center">
+        <!-- TITLE -->
+        <div class="col-lg-4 offset-lg-1 mx-0 px-0">
+            <div id="title-container">
+                <img class="covid-image" src="assets/img/security_check.png" />
+                <h2>Signup</h2>
+
+                <p>A clinical assessment multi-step form that will assist individuals on secure signup process.</p>
+            </div>
+        </div>
+        <!-- FORMS -->
+        <div class="col-lg-7 mx-0 px-0">
+            <div class="progress">
+                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
+                    class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar"
+                    [style.width]="4 * 100 / step + '%'"></div>
+            </div>
+            <div id="qbox-container">
+                <!-- <form class="needs-validation" id="form-wrapper" name="form-wrapper" novalidate> -->
+                    <div id="steps-container" [ngSwitch]="step">
+                        <div class="step" *ngSwitchCase="0">
+                            <h4>Provide us with your personal information</h4>
+                            <div class="mt-1">
+                                <label class="form-label">Name:</label>
+                                <input class="form-control" id="full_name" name="full_name" type="text" [(ngModel)]="form1.username">
+                            </div>
+
+                            <div class="mt-2">
+                                <label class="form-label">Email:</label>
+                                <input class="form-control" #email id="email" name="email" type="email" (blur)="check_email(email.value)"  [(ngModel)]="form1.email">
+                            </div>
+                            <p class="emailerror" style="color:red" *ngIf="!isEmailValidated">Email already exist</p>
+                            <div class="mt-2">
+                                <label class="form-label">Password: *</label>
+                                <input class="form-control" type="password" name="pwd" id="pwd"
+                                    placeholder="Password" [disabled]="!isEmailValidated" [(ngModel)]="form1.password" />
+                            </div>
+                            <div class="mt-2">
+                                <label class="form-label">Confirm Password: *</label>
+                                <input class="form-control" #cpwd type="password" name="pwd" id="cpwd"
+                                    placeholder="Password" (blur)="check_match_password(cpwd.value)" [disabled]="!isEmailValidated" />
+                            </div>
+                            <p class="pwderror" style="color:red" *ngIf="!isCpwdValidated">Password is not matched</p>
+                            <div class="mt-2">
+                                <label class="form-label">Phone / Mobile Number:</label>
+                                <input class="form-control" id="phone" name="phone" type="text" [disabled]="!isEmailValidated || !isCpwdValidated"  [(ngModel)]="form1.mobile" >
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-lg-3 col-md-3 col-4">
+                                    <label class="form-label">Age:</label>
+                                    <div class="input-container">
+                                        <input class="form-control" id="age" name="age" type="number" [disabled]="!isEmailValidated || !isCpwdValidated" [(ngModel)]="form1.age">
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div id="input-container">
+
+                                        <input class="form-check-input" name="gender" type="radio" value="male" (input)="onSelectGender($event)">
+                                        <label class="form-check-label radio-lb">Male</label>
+                                        <input class="form-check-input" name="gender" type="radio" value="female" (input)="onSelectGender($event)">
+                                        <label class="form-check-label radio-lb">Female</label>
+                                        <input checked class="form-check-input" name="gender" type="radio" value="undefined" (input)="onSelectGender($event)" >
+                                        <label class="form-check-label radio-lb">Rather not say</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="step1error" style="color:red" *ngIf="isStep1Error">{{step1ErrorMessage}}</p>
+                        </div>
+
+                        <div class="step" *ngSwitchCase="1">
+                            <h4>Please enter your OTP from Email, Phone, Google Authenticator</h4>
+
+                            <div class="mt-2">
+                                <label class="form-label">Email OTP:</label>
+                                <input class="form-control" id="email_otp" name="email_otp" type="number"
+                                    maxlength="6" [(ngModel)]="form2.eotp" />
+                            </div>
+                            <div class="mt-2">
+                                <label class="form-label">Phone OTP:</label>
+                                <input class="form-control" id="phone_otp" name="phone_otp" type="number"
+                                    maxlength="6" [(ngModel)]="form2.motp" />
+                            </div>
+
+                        </div>
+
+                        <div class="step" *ngSwitchCase="2">
+                            <h4>Please select security questions and respective answers</h4>
+
+                            <div class="mt-1">
+                                <label class="form-label">Question 1:</label>
+                                <select class="form-select" id="question1" name="question1">
+                                    <option *ngFor="let question of questions">{{question.value}}</option>
+                                    <!-- <option>Question 2</option>
+                                    <option>Question 3</option>
+                                    <option>Question 4</option> -->
+                                </select>
+                            </div>
+                            <div class="mt-3">
+                                <label class="form-label">Answer for Question 1:</label>
+                                <input class="form-control" id="answer1" name="answer1" type="text" />
+                            </div>
+
+
+                            <div class="mt-3">
+                                <label class="form-label">Question 2:</label>
+                                <select class="form-select" id="question2" name="question2">
+                                    <option>Question 1</option>
+                                    <option>Question 2</option>
+                                    <option>Question 3</option>
+                                    <option>Question 4</option>
+                                </select>
+                            </div>
+                            <div class="mt-3">
+                                <label class="form-label">Answer for Question 2:</label>
+                                <input class="form-control" id="answer2" name="answer2" type="text" />
+                            </div>
+
+
+                            <div class="mt-3">
+                                <label class="form-label">Question 3:</label>
+                                <select class="form-select" id="question3" name="question3">
+                                    <option>Question 1</option>
+                                    <option>Question 2</option>
+                                    <option>Question 3</option>
+                                    <option>Question 4</option>
+                                </select>
+                            </div>
+                            <div class="mt-3">
+                                <label class="form-label">Answer for Question 3:</label>
+                                <input class="form-control" id="answer3" name="answer3" type="text" />
+                            </div>
+                            <div class="mt-3">
+                                <label class="form-label">Custom Question:</label>
+                                <input class="form-control" id="answer3" name="answer3" type="text" />
+                            </div>
+                            <div class="mt-3">
+                                <label class="form-label">Answer for Custom Question:</label>
+                                <input class="form-control" id="answer3" name="answer3" type="text" />
+                            </div>
+
+                        </div>
+
+                        <div class="step" *ngSwitchCase="3">
+                            <h4>Provide us with your image and audio information</h4>
+
+                            <div class="mt-2">
+
+                                <label class="form-label">Please select your area of interest:</label>
+                                <select class="form-control select2 select2-hidden-accessible" multiple=""
+                                    data-placeholder="Select a State" style="width: 100%;" tabindex="-1"
+                                    aria-hidden="true">
+                                    <option>Animal</option>
+                                    <option>Art</option>
+                                    <option>Bike</option>
+                                    <option>Aeroplane</option>
+                                    <option>Music Instruments</option>
+                                    <option>Food</option>
+                                    <option>Cars</option>
+                                    <option>Travel</option>
+
+                                </select>
+
+
+
+                            </div>
+
+                            <div class="mt-3">
+                                <label class="form-label">Please select your image for security or upload your own
+                                    images:</label>
+
+                                <div class="form-check ps-0 q-box">
+                                    <ul class="image-checkbox">
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox1" (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox1"><img src="assets/img/1.jpeg" /></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox2" (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox2"><img src="assets/img/2.jpeg" /></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox3"  (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox3"><img src="assets/img/3.jpeg" /></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox4"  (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox4"><img src="assets/img/4.jpeg" /></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox5"  (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox5"><img src="assets/img/5.jpeg" /></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox6"  (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox6"><img src="assets/img/6.jpeg" /></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox7"  (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox7"><img src="assets/img/7.jpeg" /></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox8"  (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox8"><img src="assets/img/8.jpeg" /></label>
+                                        </li>
+                                        <li>
+                                            <input type="checkbox" id="myCheckbox9"  (input)="onSelectImage($event)"/>
+                                            <label for="myCheckbox9"><img src="assets/img/9.jpeg" /></label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+
+                                <label class="form-label">Upload your own images</label>
+                                <div class="custom-file mb-3">
+                                    <input type="file" class="custom-file-input" id="customFile" name="filename"
+                                        multiple>
+                                </div>
+
+                            </div>
+                            <div class="mt-5">
+                                <label class="form-label">Audio:</label>
+
+                                <div class="audio-controls">
+                                    <button class="btnstyle" id="record" (click)="startRecording()">Record</button>
+                                    <button class="btnstyle" id="stop" (click)="stopRecording()">Stop</button>
+                                    <audio class="btnstyle" id="audio" controls></audio>
+                                </div>
+
+                                <div id="msg">Recording...</div>
+
+                                <input type="file" id="audiofile" hidden>
+
+                                <div class="mt-3" hidden>
+                                    <a id="download">Download</a>
+                                </div>
+
+                                <p class="submiterror" style="color:red" *ngIf="isSubmitError">{{submitErrorMessage}}</p>
+                            </div>
+                        </div>
+
+                        <div id="success">
+                            <div class="mt-5">
+                                <h4>Success! We'll get back to you ASAP!</h4>
+                                <p>
+                                    Meanwhile, clean your hands often, use soap and water, or an alcohol-based hand rub,
+                                    maintain a safe distance from anyone who is coughing or sneezing and always wear a
+                                    mask when physical
+                                    distancing is not possible.
+                                </p>
+                                <a class="back-link" href="">Go back from the beginning ➜</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="q-box__buttons">
+                        <button id="prev-btn" type="button" *ngIf="step != 0" (click)="onClickPrev()">Previous</button>
+                        <button id="next-btn" type="button" *ngIf="step != 3" (click)="onClickNext()">Next</button>
+                        <button id="submit-btn" type="submit" *ngIf="step == 3" (click)="onClickSubmit()">Submit</button>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PRELOADER -->
+<div id="preloader-wrapper">
+    <div id="preloader"></div>
+    <div class="preloader-section section-left"></div>
+    <div class="preloader-section section-right"></div>
+</div>
